@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>amoeba maze</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.11.1/lib/browser/math.js"></script>
+    <script type="module">
+      import { mazeArray } from './functions.js';
+      window.mazeArray = mazeArray;
+
+      const iframe = document.getElementById("game-iframe");
+      window.onload = function() {
+        iframe.contentWindow.postMessage({
+          type: 'maze-data',
+          maze: mazeArray
+        }, '*');
+      }
+    </script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div style="display: flex; justify-content: center; flex-direction: column;">
+      <div style="display: flex; justify-content: center;">
+        <iframe
+          id="game-iframe"
+          src="game.html"
+          width="400"
+          height="600"
+          style="border: 1px solid #ccc;"
+        >
+        </iframe>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <p>
+          経路長：
+          <span id="game-route-length"></span>
+        </p>
+        <p>
+          モデルが算出した最短距離：
+          <span id="amoeba-route-length"></span>
+        </p>
+      </div>
+      <div id="amoeba-simulation">
+        <canvas id="amoeba-canvas" width="345" height="320" style="max-height: 320px;"></canvas>
+        <button id="simulation-start-button">Start</button>
+      </div>
+    </div>
+    <script src='GameClass/edge.js'></script>
+    <script src='GameClass/node.js'></script>
+    <script type="module" src='amoeba.js'></script>
+  </body>
+</html>
